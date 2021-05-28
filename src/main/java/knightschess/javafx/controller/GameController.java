@@ -33,6 +33,7 @@ public class GameController {
     @FXML
     public void initialize(){
         chessBoardState.initializeBoard();
+        ChessBoardState.possibleMoves.add(new Pair(-1,-1)); // dummy value for beginning of the game
         System.out.println(playerState.getMoveList());
     }
 
@@ -41,7 +42,7 @@ public class GameController {
         var column= GridPane.getColumnIndex((Node) mouseEvent.getSource());
         var state = ChessBoardState.chessBoard.get(row).get(column);
 
-        ImageView im = (ImageView) mouseEvent.getTarget();
+        ImageView imageView = (ImageView) mouseEvent.getTarget();
 
         if(!chessBoardState.gameOver(playerState)) {
             if (checkTurn(state)) return;
@@ -49,21 +50,22 @@ public class GameController {
             if (playerState.getMoveList().isEmpty() && (state == 2 || state == 3)) {
                 Pair pair = new Pair(row, column);
                 playerState.getMoveList().add(pair);
-                playerState.getImageViewList().add(im);
+                playerState.getImageViewList().add(imageView);
                 ChessBoardState.possibleMoves = chessBoardState.showPossibleMoves(pair);
                 showPossibleMovesOnBoard(ChessBoardState.possibleMoves);
+                chessBoardState.gameOver(playerState);
             } else if (playerState.getMoveList().size() == 1 && state == 0) {
                 playerState.getMoveList().add(new Pair(row, column));
                 if (chessBoardState.isKnightMoveValid(playerState, row, column)) {
                     clearPossibleMovesOnBoard(ChessBoardState.possibleMoves);
-                    moveKnight(im);
+                    moveKnight(imageView);
                     switchPlayer();
                 } else {
                     System.out.println("Invalid move!");
                 }
             }
         }
-        chessBoardState.gameOver(playerState);
+
     }
 
     private boolean checkTurn(Integer state) {

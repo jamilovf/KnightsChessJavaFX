@@ -110,11 +110,9 @@ public class ChessBoardState {
     }
 
     private boolean isGameFinished() {
-        for(int i = 0; i < 8; i++){
-            if(chessBoard.get(i).contains(0)) {
-                return false;
-            }
+        if(ChessBoardState.possibleMoves.isEmpty()){
+            return true;
         }
-        return true;
+        return false;
     }
 }
