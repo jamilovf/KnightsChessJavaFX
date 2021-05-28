@@ -28,6 +28,8 @@ public class GameController {
 
     private Image moveImage = new Image(getClass().getResource("/images/move.png").toExternalForm());
 
+    private Image restrictImage =  new Image(getClass().getResource("/images/restrict.png").toExternalForm());
+
     @FXML
     public void initialize(){
         chessBoardState.initializeBoard();
@@ -37,17 +39,67 @@ public class GameController {
     public void handleClickOnCell(MouseEvent mouseEvent){
         var row= GridPane.getRowIndex((Node) mouseEvent.getSource());
         var column= GridPane.getColumnIndex((Node) mouseEvent.getSource());
+        var state = ChessBoardState.chessBoard.get(row).get(column);
 
         ImageView im = (ImageView) mouseEvent.getTarget();
 
-        if(playerState.getMoveList().isEmpty() && ChessBoardState.chessBoard.get(row).get(column) == 2){
-            Pair pair = new Pair(row,column);
-            playerState.getMoveList().add(pair);
-            List<Pair> possibleMoves = chessBoardState.showPossibleMoves(pair);
-            showPossibleMovesOnBoard(possibleMoves);
+        if(!chessBoardState.gameOver(playerState)) {
+            if (checkTurn(state)) return;
+
+            if (playerState.getMoveList().isEmpty() && (state == 2 || state == 3)) {
+                Pair pair = new Pair(row, column);
+                playerState.getMoveList().add(pair);
+                playerState.getImageViewList().add(im);
+                ChessBoardState.possibleMoves = chessBoardState.showPossibleMoves(pair);
+                showPossibleMovesOnBoard(ChessBoardState.possibleMoves);
+            } else if (playerState.getMoveList().size() == 1 && state == 0) {
+                playerState.getMoveList().add(new Pair(row, column));
+                if (chessBoardState.isKnightMoveValid(playerState, row, column)) {
+                    clearPossibleMovesOnBoard(ChessBoardState.possibleMoves);
+                    moveKnight(im);
+                    switchPlayer();
+                } else {
+                    System.out.println("Invalid move!");
+                }
+            }
         }
-        else if(playerState.getMoveList().size() == 1 && ChessBoardState.chessBoard.get(row).get(column) == 0){
-            playerState.getMoveList().add(new Pair(row,column));
+        chessBoardState.gameOver(playerState);
+    }
+
+    private boolean checkTurn(Integer state) {
+        if(playerState.isPlayer1Turn()){
+            if(state == 3){
+                System.out.println("Invalid turn!");
+                return true;
+            }
+        }
+        else{
+            if(state == 2){
+                System.out.println("Invalid turn");
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void moveKnight(ImageView im) {
+        playerState.getImageViewList().get(0).setImage(restrictImage);
+        if(playerState.isPlayer1Turn()){
+        im.setImage(knightWhite);
+        }
+        else {
+            im.setImage(knightBlack);
+        }
+    }
+
+    private void switchPlayer() {
+        playerState.getMoveList().clear();
+        playerState.getImageViewList().clear();
+        if(playerState.isPlayer1Turn()) {
+            playerState.setPlayer1Turn(false);
+        }
+        else {
+            playerState.setPlayer1Turn(true);
         }
     }
 
@@ -56,6 +108,14 @@ public class GameController {
         for(Pair p: possibleMoves){
             ImageView imageView = getImageViewFromGridPane(gridPane,p.getRow(),p.getColumn());
             imageView.setImage(moveImage);
+        }
+    }
+
+    private void clearPossibleMovesOnBoard(List<Pair> possibleMoves) {
+        System.out.println(possibleMoves);
+        for(Pair p: possibleMoves){
+            ImageView imageView = getImageViewFromGridPane(gridPane,p.getRow(),p.getColumn());
+            imageView.setImage(null);
         }
     }
 
