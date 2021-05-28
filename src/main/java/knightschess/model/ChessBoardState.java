@@ -26,32 +26,32 @@ public class ChessBoardState {
             if(col - 2 >= 0 && col - 2 <= 7){
                 possibleMoves.add(new Pair(row - 1,col - 2));
             }
-            else if(col + 2 >= 0 && col + 2 <= 7){
+            if(col + 2 >= 0 && col + 2 <= 7){
                 possibleMoves.add(new Pair(row - 1,col + 2));
             }
         }
         if(row + 1 >= 0 && row + 1 <= 7) {
             if(col - 2 >= 0 && col - 2 <= 7){
-                possibleMoves.add(new Pair(row - 1,col - 2));
+                possibleMoves.add(new Pair(row + 1,col - 2));
             }
-            else if(col + 2 >= 0 && col + 2 <= 7){
-                possibleMoves.add(new Pair(row - 1,col + 2));
+            if(col + 2 >= 0 && col + 2 <= 7){
+                possibleMoves.add(new Pair(row + 1,col + 2));
             }
         }
         if(col - 1 >= 0 && col - 1 <= 7) {
             if(row - 2 >= 0 && row - 2 <= 7){
                 possibleMoves.add(new Pair(row - 2,col - 1));
             }
-            else if(row + 2 >= 0 && row + 2 <= 7){
-                possibleMoves.add(new Pair(row - 2,col + 1));
+            if(row + 2 >= 0 && row + 2 <= 7){
+                possibleMoves.add(new Pair(row + 2,col - 1));
             }
         }
         if(col + 1 >= 0 && col + 1 <= 7) {
             if(row - 2 >= 0  && row - 2 <= 7){
-                possibleMoves.add(new Pair(row - 2,col - 1));
-            }
-            else if(row + 2 >= 0 && row + 2 <= 7){
                 possibleMoves.add(new Pair(row - 2,col + 1));
+            }
+            if(row + 2 >= 0 && row + 2 <= 7){
+                possibleMoves.add(new Pair(row + 2,col + 1));
             }
         }
         return possibleMoves;

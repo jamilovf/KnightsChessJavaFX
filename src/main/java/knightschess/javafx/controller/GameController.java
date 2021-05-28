@@ -59,15 +59,19 @@ public class GameController {
         }
     }
 
-    private ImageView getImageViewFromGridPane(GridPane gridPane, int col, int row) {
+    private ImageView getImageViewFromGridPane(GridPane gridPane, int row, int col) {
         for (Node node : gridPane.getChildren()) {
             if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
-                System.out.println(node);
-                Pane pane = (Pane) node;
-                System.out.println(pane.getChildren());
-                Node node1 = pane.getChildren().get(0);
-               ImageView imageView  = (ImageView) node1;
-                return imageView;
+                if(node instanceof Pane) {
+                    Pane pane = (Pane) node;
+                    Node imageNode = pane.getChildren().get(0);
+                    ImageView imageView = (ImageView) imageNode;
+                    return imageView;
+                }
+                else{
+                    ImageView imageView = (ImageView) node;
+                    return imageView;
+                }
             }
         }
         return null;
