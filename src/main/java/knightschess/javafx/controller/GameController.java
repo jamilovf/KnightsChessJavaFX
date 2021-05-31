@@ -1,21 +1,25 @@
 package knightschess.javafx.controller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 import knightschess.model.ChessBoardState;
 import knightschess.model.Pair;
 import knightschess.model.PlayerState;
 import knightschess.model.ResultState;
+import util.javafx.ControllerHelper;
 import util.json.JsonHelper;
 
+import java.io.IOException;
 import java.util.List;
 
 public class GameController {
@@ -24,6 +28,8 @@ public class GameController {
     private PlayerState playerState = new PlayerState();
 
     private ResultState resultState = new ResultState();
+
+    private FXMLLoader fxmlLoader = new FXMLLoader();
 
     @FXML
     private GridPane gridPane;
@@ -202,5 +208,15 @@ public class GameController {
             }
         }
         return null;
+    }
+
+    public void mainMenuAction(ActionEvent actionEvent) throws IOException {
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        ControllerHelper.loadAndShowFXML(fxmlLoader,"/fxml/launch.fxml",stage);
+    }
+
+    public void highScoresAction(ActionEvent actionEvent) throws IOException {
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        ControllerHelper.loadAndShowFXML(fxmlLoader,"/fxml/highScores.fxml",stage);
     }
 }
