@@ -63,14 +63,14 @@ public class GameController {
     @FXML
     public void initialize(){
         chessBoardState.initializeBoard();
-        ChessBoardState.possibleMoves.add(new Pair(-1,-1)); // dummy value for beginning of the game
+        chessBoardState.possibleMoves.add(new Pair(-1,-1)); // dummy value for beginning of the game
         System.out.println(playerState.getMoveList());
     }
 
     public void handleClickOnCell(MouseEvent mouseEvent){
         var row= GridPane.getRowIndex((Node) mouseEvent.getSource());
         var column= GridPane.getColumnIndex((Node) mouseEvent.getSource());
-        var state = ChessBoardState.chessBoard.get(row).get(column);
+        var state = chessBoardState.chessBoard.get(row).get(column);
 
         ImageView imageView = (ImageView) mouseEvent.getTarget();
 
@@ -87,8 +87,8 @@ public class GameController {
                 playerState.getImageViewList().add(imageView);
                 System.out.println(playerState.getMoveList());
                 System.out.println(playerState.getImageViewList());
-                ChessBoardState.possibleMoves = chessBoardState.showPossibleMoves(pair);
-                showPossibleMovesOnBoard(ChessBoardState.possibleMoves);
+                chessBoardState.possibleMoves = chessBoardState.showPossibleMoves(pair);
+                showPossibleMovesOnBoard(chessBoardState.possibleMoves);
 
                 if(gameOver(playerState)){
                     JsonHelper.write(resultState);
@@ -97,7 +97,7 @@ public class GameController {
             else if (playerState.getMoveList().size() == 1 && state == 0) {
 
                 if (chessBoardState.isKnightMoveValid(playerState, row, column)) {
-                    clearPossibleMovesOnBoard(ChessBoardState.possibleMoves);
+                    clearPossibleMovesOnBoard(chessBoardState.possibleMoves);
                     moveKnight(imageView);
                     switchPlayer();
                 }
