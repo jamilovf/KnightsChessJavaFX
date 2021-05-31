@@ -84,4 +84,28 @@ class ChessBoardStateTest {
 
     }
 
+    @Test
+    void isKnightMoveValid() {
+        ChessBoardState chessBoardState = new ChessBoardState();
+        PlayerState playerState = new PlayerState();
+        chessBoardState.initializeBoard();
+        chessBoardState.possibleMoves.add(new Pair(3,3));
+        playerState.getMoveList().add(new Pair(1,2));
+
+        int row = 3;
+        int col = 3;
+        assertTrue(chessBoardState.isKnightMoveValid(playerState,row,col));
+
+        assertFalse(chessBoardState.isKnightMoveValid(playerState,row,col));
+
+        chessBoardState.chessBoard.get(3).set(3,1);
+        assertFalse(chessBoardState.isKnightMoveValid(playerState,row,col));
+
+        chessBoardState.chessBoard.get(3).set(3,3);
+        assertFalse(chessBoardState.isKnightMoveValid(playerState,row,col));
+
+         row = 2;
+         col = 2;
+         assertFalse(chessBoardState.isKnightMoveValid(playerState,row,col));
+    }
 }
