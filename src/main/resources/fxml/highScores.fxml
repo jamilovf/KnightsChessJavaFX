@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #6b3e2e;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="knightschess.javafx.controller.HighScoresController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #6b3e2e;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="knightschess.javafx.controller.HighScoresController">
     <children>
         <TableView fx:id="tableView" layoutX="125.0" layoutY="82.0" prefHeight="253.0" prefWidth="376.0">
             <columns>
@@ -12,7 +15,7 @@
                 <TableColumn fx:id="score" minWidth="6.0" prefWidth="187.0" text="Score" />
             </columns>
         </TableView>
-        <Label alignment="CENTER" layoutX="125.0" layoutY="45.0" prefHeight="37.0" prefWidth="376.0" style="-fx-background-color: white;" text="High Scores">
+        <Label alignment="CENTER" layoutX="125.0" layoutY="45.0" prefHeight="37.0" prefWidth="376.0" style="-fx-background-color: #ffffff;" text="High Scores" textFill="#6f5050">
             <font>
                 <Font name="SansSerif Regular" size="18.0" />
             </font>

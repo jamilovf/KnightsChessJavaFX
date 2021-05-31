@@ -6,8 +6,10 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import knightschess.model.ChessBoardState;
 import knightschess.model.Pair;
 import knightschess.model.PlayerState;
@@ -42,6 +44,8 @@ public class GameController {
     private Image moveImage = new Image(getClass().getResource("/images/move.png").toExternalForm());
 
     private Image restrictImage =  new Image(getClass().getResource("/images/restrict.png").toExternalForm());
+
+    private String backGroundStyle = "-fx-background-color: #6b3e2e;";
 
     public void initializeGameState(String player1, String player2) {
         resultState.setFirstPlayer(player1);
@@ -134,8 +138,23 @@ public class GameController {
         else {
             playerState.setPlayer1Turn(true);
         }
+        changePlayerLabel(playerState);
     }
 
+    private void changePlayerLabel(PlayerState playerState){
+        if(!playerState.isPlayer1Turn()) {
+            player1Label.setStyle(null);
+            player1Label.setTextFill(Color.rgb(107,62,46));
+            player2Label.setStyle(backGroundStyle);
+            player2Label.setTextFill(Color.WHITE);
+        }
+        else {
+            player2Label.setStyle(null);
+            player2Label.setTextFill(Color.rgb(107,62,46));
+            player1Label.setStyle(backGroundStyle);
+            player1Label.setTextFill(Color.WHITE);
+        }
+    }
     public boolean gameOver(PlayerState playerState){
         if(chessBoardState.isGameFinished()){
             if(playerState.isPlayer1Turn()){
