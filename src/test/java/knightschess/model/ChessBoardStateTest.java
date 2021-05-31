@@ -8,10 +8,11 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ChessBoardStateTest {
-    private ChessBoardState chessBoardState = new ChessBoardState();
 
     @Test
     void initializeBoard() {
+        ChessBoardState chessBoardState = new ChessBoardState();
+
         chessBoardState.initializeBoard();
         for(int i = 0; i < 8; i++){
             for(int j = 0; j < 8; j++){
@@ -26,6 +27,8 @@ class ChessBoardStateTest {
 
     @Test
     void isGameFinished() {
+        ChessBoardState chessBoardState = new ChessBoardState();
+
         assertTrue(chessBoardState.isGameFinished());
 
         chessBoardState.possibleMoves.add(new Pair(0,0));
@@ -35,6 +38,8 @@ class ChessBoardStateTest {
 
     @Test
     void showPossibleMoves() {
+        ChessBoardState chessBoardState = new ChessBoardState();
+
         Pair pair = new Pair(3,3);
         chessBoardState.initializeBoard();
 
@@ -53,4 +58,30 @@ class ChessBoardStateTest {
 
        assertTrue(chessBoardState.possibleMoves.containsAll(expectedPairs));
     }
+
+    @Test
+    void changeKnightState() {
+        ChessBoardState chessBoardState = new ChessBoardState();
+        PlayerState playerState = new PlayerState();
+        chessBoardState.initializeBoard();
+
+        Pair posPair = new Pair(3,3);
+        int row = 1;
+        int col = 2;
+        chessBoardState.changeKnightState(playerState,row,col,posPair);
+
+        assertEquals(2,chessBoardState.chessBoard.get(row).get(col));
+        assertEquals(1,chessBoardState.chessBoard.get(posPair.getRow()).get(posPair.getColumn()));
+
+        playerState.setPlayer1Turn(false);
+        posPair = new Pair(4,4);
+        row = 3;
+        col = 6;
+        chessBoardState.changeKnightState(playerState,row,col,posPair);
+
+        assertEquals(3,chessBoardState.chessBoard.get(row).get(col));
+        assertEquals(1,chessBoardState.chessBoard.get(posPair.getRow()).get(posPair.getColumn()));
+
+    }
+
 }
