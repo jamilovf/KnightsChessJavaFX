@@ -32,6 +32,9 @@ public class GameController {
     @FXML
     private Label player2Label;
 
+    @FXML
+    private Label errorLabel;
+
     private Image knightBlack = new Image(getClass().getResource("/images/knightBlack.png").toExternalForm());
 
     private Image knightWhite = new Image(getClass().getResource("/images/knightWhite.png").toExternalForm());
@@ -62,6 +65,8 @@ public class GameController {
         ImageView imageView = (ImageView) mouseEvent.getTarget();
 
         if(!gameOver(playerState)) {
+            errorLabel.setText("");
+
             if (checkTurn(state)){
                 return;
             }
@@ -87,7 +92,7 @@ public class GameController {
                     switchPlayer();
                 }
                 else {
-                    System.out.println("Invalid move!");
+                    errorLabel.setText("Invalid move!");
                 }
             }
         }
@@ -97,13 +102,13 @@ public class GameController {
     private boolean checkTurn(Integer state) {
         if(playerState.isPlayer1Turn()){
             if(state == 3){
-                System.out.println("Invalid turn!");
+                errorLabel.setText("Invalid turn!");
                 return true;
             }
         }
         else{
             if(state == 2){
-                System.out.println("Invalid turn");
+                errorLabel.setText("Invalid turn!");
                 return true;
             }
         }
@@ -133,14 +138,13 @@ public class GameController {
 
     public boolean gameOver(PlayerState playerState){
         if(chessBoardState.isGameFinished()){
-            System.out.println("Game Over!");
             if(playerState.isPlayer1Turn()){
                 resultState.setWinner(resultState.getSecondPlayer());
-                System.out.println("Player 2 won the game!");
+                errorLabel.setText(resultState.getSecondPlayer() + " won the game!");
             }
             else {
                 resultState.setWinner(resultState.getFirstPlayer());
-                System.out.println("Player 1 won the game!");
+                errorLabel.setText(resultState.getFirstPlayer() + " won the game!");
             }
             return true;
         }
