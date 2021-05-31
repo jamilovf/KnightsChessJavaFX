@@ -1,6 +1,5 @@
 package knightschess.javafx.controller;
 
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -45,12 +44,16 @@ public class GameController {
         ImageView imageView = (ImageView) mouseEvent.getTarget();
 
         if(!chessBoardState.gameOver(playerState)) {
-            if (checkTurn(state)) return;
+            if (checkTurn(state)){
+                return;
+            }
 
             if (playerState.getMoveList().isEmpty() && (state == 2 || state == 3)) {
                 Pair pair = new Pair(row, column);
                 playerState.getMoveList().add(pair);
                 playerState.getImageViewList().add(imageView);
+                System.out.println(playerState.getMoveList());
+                System.out.println(playerState.getImageViewList());
                 ChessBoardState.possibleMoves = chessBoardState.showPossibleMoves(pair);
                 showPossibleMovesOnBoard(ChessBoardState.possibleMoves);
                 chessBoardState.gameOver(playerState);

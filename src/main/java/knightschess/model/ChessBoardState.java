@@ -80,7 +80,7 @@ public class ChessBoardState {
         Pair posPair = playerState.getMoveList().get(0);
         Pair destPair = new Pair(row, col);
         int state = ChessBoardState.chessBoard.get(row).get(col);
-        if (ChessBoardState.possibleMoves.contains(destPair) && state != 2 && state != 3 && state != 1) {
+        if (ChessBoardState.possibleMoves.contains(destPair) && state != 2 && state != 3  && state != 1) {
             if(playerState.isPlayer1Turn()) {
                 chessBoard.get(row).set(col, 2);
             }
