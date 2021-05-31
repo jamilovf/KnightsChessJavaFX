@@ -2,6 +2,7 @@ package knightschess.javafx.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -10,6 +11,8 @@ import javafx.scene.layout.Pane;
 import knightschess.model.ChessBoardState;
 import knightschess.model.Pair;
 import knightschess.model.PlayerState;
+import knightschess.model.ResultState;
+import util.json.JsonHelper;
 
 import java.util.List;
 
@@ -18,8 +21,16 @@ public class GameController {
 
     private PlayerState playerState = new PlayerState();
 
+    private ResultState resultState = new ResultState();
+
     @FXML
     private GridPane gridPane;
+
+    @FXML
+    private Label player1Label;
+
+    @FXML
+    private Label player2Label;
 
     private Image knightBlack = new Image(getClass().getResource("/images/knightBlack.png").toExternalForm());
 
@@ -28,6 +39,13 @@ public class GameController {
     private Image moveImage = new Image(getClass().getResource("/images/move.png").toExternalForm());
 
     private Image restrictImage =  new Image(getClass().getResource("/images/restrict.png").toExternalForm());
+
+    public void initializeGameState(String player1, String player2) {
+        resultState.setFirstPlayer(player1);
+        resultState.setSecondPlayer(player2);
+        player1Label.setText(player1);
+        player2Label.setText(player2);
+    }
 
     @FXML
     public void initialize(){
@@ -43,7 +61,7 @@ public class GameController {
 
         ImageView imageView = (ImageView) mouseEvent.getTarget();
 
-        if(!chessBoardState.gameOver(playerState)) {
+        if(!gameOver(playerState)) {
             if (checkTurn(state)){
                 return;
             }
@@ -56,14 +74,19 @@ public class GameController {
                 System.out.println(playerState.getImageViewList());
                 ChessBoardState.possibleMoves = chessBoardState.showPossibleMoves(pair);
                 showPossibleMovesOnBoard(ChessBoardState.possibleMoves);
-                chessBoardState.gameOver(playerState);
-            } else if (playerState.getMoveList().size() == 1 && state == 0) {
+
+                if(gameOver(playerState)){
+                    JsonHelper.write(resultState);
+                }
+            }
+            else if (playerState.getMoveList().size() == 1 && state == 0) {
 
                 if (chessBoardState.isKnightMoveValid(playerState, row, column)) {
                     clearPossibleMovesOnBoard(ChessBoardState.possibleMoves);
                     moveKnight(imageView);
                     switchPlayer();
-                } else {
+                }
+                else {
                     System.out.println("Invalid move!");
                 }
             }
@@ -108,6 +131,22 @@ public class GameController {
         }
     }
 
+    public boolean gameOver(PlayerState playerState){
+        if(chessBoardState.isGameFinished()){
+            System.out.println("Game Over!");
+            if(playerState.isPlayer1Turn()){
+                resultState.setWinner(resultState.getSecondPlayer());
+                System.out.println("Player 2 won the game!");
+            }
+            else {
+                resultState.setWinner(resultState.getFirstPlayer());
+                System.out.println("Player 1 won the game!");
+            }
+            return true;
+        }
+        return false;
+    }
+
     private void showPossibleMovesOnBoard(List<Pair> possibleMoves) {
         System.out.println(possibleMoves);
         for(Pair p: possibleMoves){
@@ -141,5 +180,4 @@ public class GameController {
         }
         return null;
     }
-
 }
