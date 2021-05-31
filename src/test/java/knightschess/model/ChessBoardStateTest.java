@@ -22,4 +22,13 @@ class ChessBoardStateTest {
         assertEquals(2,chessBoardState.chessBoard.get(0).get(0));
         assertEquals(3,chessBoardState.chessBoard.get(7).get(7));
     }
+
+    @Test
+    void isGameFinished() {
+        assertTrue(chessBoardState.isGameFinished());
+
+        chessBoardState.possibleMoves.add(new Pair(0,0));
+        assertFalse(chessBoardState.isGameFinished());
+
+    }
 }
