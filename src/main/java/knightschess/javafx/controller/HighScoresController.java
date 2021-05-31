@@ -44,7 +44,7 @@ public class HighScoresController {
         ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule());
 
         List<ResultState> resultStateList;
-        ObservableList<HighScore> highScores = FXCollections.observableArrayList();
+        ObservableList<HighScore> highScoreObservableList = FXCollections.observableArrayList();
 
         File file = JsonHelper.read(this);
 
@@ -62,10 +62,10 @@ public class HighScoresController {
                             HighScore highScore = new HighScore();
                             highScore.setPlayer(entry.getKey());
                             highScore.setScore(entry.getValue().intValue());
-                            highScores.add(highScore);
+                            highScoreObservableList.add(highScore);
                         });
             }
-            tableView.setItems(highScores);
+            tableView.setItems(highScoreObservableList);
 
         }catch (Exception e){
             e.printStackTrace();
