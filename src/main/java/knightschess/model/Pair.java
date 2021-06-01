@@ -2,6 +2,9 @@ package knightschess.model;
 
 import lombok.Data;
 
+/**
+ * Class representing the cell of the board as a row and column pair.
+ */
 @Data
 public class Pair {
     private int row;
@@ -12,3 +15,4 @@ public class Pair {
         this.column = column;
     }
 }
+
